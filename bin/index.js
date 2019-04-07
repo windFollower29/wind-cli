@@ -29,14 +29,14 @@ program
 
   
 program
-  .command('init [tpl]')
+  .command('init [tpl] [output]')
   .alias('i')
   .description('download the appointed template')
   // .option("-e, --exec_mode <mode>", "Which exec mode to use")
-  .action(function(tpl, a, b){
+  .action(function(output, tpl){
 
     cmdValue = 'init'
-    install(tpl)
+    install(output, tpl)
   });
 
 // 捕获没有命中的命令
