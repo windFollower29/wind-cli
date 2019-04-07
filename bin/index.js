@@ -4,9 +4,9 @@
 var program = require('commander')
 var readline = require('readline')
 
-var execCli = require('../tasks/index')
-
 var install = require('../tasks/install/index')
+
+let cmdValue;
 
 // // program.parse(process.argv)
 // var tplDir = `git@github.com:vuejs/${tplName}.git`
@@ -28,22 +28,38 @@ program
   .option('-v, --version', 'show the version of the node package');
 
   
-  program
-    .command('init [tpl]')
-    // .alias('i')
-    .description('download the appointed template')
-    // .option("-e, --exec_mode <mode>", "Which exec mode to use")
-    .action(function(tpl, a, b){
+program
+  .command('init [tpl]')
+  .alias('i')
+  .description('download the appointed template')
+  // .option("-e, --exec_mode <mode>", "Which exec mode to use")
+  .action(function(tpl, a, b){
 
-      install(tpl)
-    });
+    cmdValue = 'init'
+    install(tpl)
+  });
 
-  // 捕获没有命中的命令
-  program
-    .arguments('<cmd> [data]')
-    .action((data, commands) => {
-      console.log('<cmd>: ', data, commands)
-      program.help()
-    })
-      
-program.parse(process.argv);
+// 捕获没有命中的命令
+program
+  .arguments('<cmd> [data]')
+  .action((cmd, data) => {
+
+    console.log('<cmd>: ', cmd, data)
+    program.help()
+  })
+  // .on('command:*', function () {
+  //   console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+  //   process.exit(1);
+  // });
+
+// program
+//   .command('*')
+//   .action(function(env){
+//     console.log('deploying "%s"', env);
+//   });
+
+program.parse(process.argv)
+
+if (typeof cmdValue === 'undefined') {
+  install()
+}
